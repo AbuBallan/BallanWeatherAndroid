@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/location_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Location"
+        android:textAppearance="@style/LargeHeading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/location_desc_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="For accurate forecast, pick your current location. You can always change this later."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location_title_text_view" />
+
+    <ImageView
+        android:id="@+id/automatic_icon_image_view"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="40dp"
+        android:tint="@color/light_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location_desc_text_view"
+        app:srcCompat="@drawable/ic_location" />
+
+    <TextView
+        android:id="@+id/automatic_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Automatic"
+        android:textAppearance="@style/SmallHeading"
+        app:layout_constraintBottom_toTopOf="@+id/automatic_desc_text_view"
+        app:layout_constraintStart_toEndOf="@+id/automatic_icon_image_view"
+        app:layout_constraintTop_toTopOf="@+id/automatic_icon_image_view" />
+
+    <TextView
+        android:id="@+id/automatic_desc_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Use GPS to find location"
+        android:textAppearance="@style/SmallSub"
+        app:layout_constraintBottom_toBottomOf="@+id/automatic_icon_image_view"
+        app:layout_constraintStart_toEndOf="@+id/automatic_icon_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/automatic_title_text_view" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/automatic_location_group"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
+        app:constraint_referenced_ids="automatic_title_text_view,automatic_desc_text_view,automatic_icon_image_view"
+        app:layout_constraintBottom_toBottomOf="@+id/automatic_desc_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/automatic_title_text_view" />
+
+    <ImageView
+        android:id="@+id/manual_icon_image_view"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:tint="@color/light_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/automatic_icon_image_view"
+        app:srcCompat="@drawable/ic_search" />
+
+    <TextView
+        android:id="@+id/manual_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Manual"
+        android:textAppearance="@style/SmallHeading"
+        app:layout_constraintBottom_toTopOf="@+id/manual_desc_text_view"
+        app:layout_constraintStart_toEndOf="@+id/manual_icon_image_view"
+        app:layout_constraintTop_toTopOf="@+id/manual_icon_image_view" />
+
+    <TextView
+        android:id="@+id/manual_desc_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Use cities manually"
+        android:textAppearance="@style/SmallSub"
+        app:layout_constraintBottom_toBottomOf="@+id/manual_icon_image_view"
+        app:layout_constraintStart_toEndOf="@+id/manual_icon_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/manual_title_text_view" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/manual_location_group"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
+        app:constraint_referenced_ids="manual_icon_image_view,manual_desc_text_view,manual_title_text_view"
+        app:layout_constraintBottom_toBottomOf="@+id/manual_desc_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/manual_title_text_view" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

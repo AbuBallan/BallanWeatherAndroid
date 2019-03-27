@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:bind="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="currentCondition"
+            type="com.jonerds.ballanweather.data.model.HourWeather" />
+
+        <variable
+            name="dayWeather"
+            type="com.jonerds.ballanweather.data.model.DayWeather" />
+
+        <variable
+            name="city"
+            type="com.jonerds.ballanweather.data.model.City" />
+
+        <import type="java.lang.String" />
+
+        <variable
+            name="view"
+            type="com.jonerds.ballanweather.ui.main.MainMvpView"/>
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".ui.main.MainActivity">
+
+        <include
+            android:id="@+id/loading_layout"
+            layout="@layout/view_loading"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/no_internet_layout"
+            layout="@layout/view_no_internet_connection"
+            android:visibility="gone"
+            bind:view="@{view}"/>
+
+        <include
+            android:id="@+id/error_layout"
+            layout="@layout/view_error"
+            android:visibility="gone"
+            bind:view="@{view}"/>
+
+        <include
+            android:id="@+id/content_layout"
+            layout="@layout/activity_main_content"
+            android:visibility="gone"
+            bind:currentCondition="@{currentCondition}"
+            bind:dayWeather="@{dayWeather}"
+            bind:city="@{city}"
+            bind:view="@{view}"/>
+
+
+    </FrameLayout>
+</layout>

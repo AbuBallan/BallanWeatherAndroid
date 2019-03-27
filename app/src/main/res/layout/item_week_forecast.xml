@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="dayWeather"
+            type="com.jonerds.ballanweather.data.model.DayWeather"/>
+
+        <import type="java.lang.String"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/day_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{String.format(@string/week_forecast_day_format, dayWeather.date, dayWeather.date)}"
+            android:textAppearance="@style/MediumHeading"
+            app:layout_constraintStart_toStartOf="@+id/start_guideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/precipitation_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_small_percipitation"
+            android:drawablePadding="2dp"
+            android:text="@{String.format(@string/chanceofrain_format, dayWeather.precipiation)}"
+            app:layout_constraintStart_toStartOf="@+id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/day_text_view" />
+
+        <TextView
+            android:id="@+id/temperature_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:drawableLeft="@drawable/ic_small_temperature"
+            android:drawablePadding="2dp"
+            android:text="@{String.format(@string/max_min_temp_format, dayWeather.minTemp, dayWeather.maxTemp)}"
+            app:layout_constraintStart_toEndOf="@+id/precipitation_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/day_text_view" />
+
+
+        <ImageView
+            android:id="@+id/expanded_forecast_image_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/precipitation_text_view"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/day_text_view"
+            app:srcCompat="@drawable/ic_expand_more" />
+
+        <ImageView
+            android:id="@+id/status_image_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:status_time="@{1200}"
+            android:status_desc="@{dayWeather.hourly.get(12).desc}"
+            app:layout_constraintBottom_toBottomOf="@+id/precipitation_text_view"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintEnd_toStartOf="@+id/expanded_forecast_image_view"
+            app:layout_constraintTop_toTopOf="@+id/day_text_view"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <com.jonerds.ballanweather.ui.expandablelayout.ExpandableConstraintLayout
+            android:id="@+id/expand_forecast_constraint_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:expandDuration="-1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/precipitation_text_view">
+
+
+            <TextView
+                android:id="@+id/desc_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="-1dp"
+                android:layout_marginRight="-1dp"
+                android:text="@{String.format(@string/week_forecast_day_desc_format, dayWeather.hourly.get(6).desc, dayWeather.hourly.get(13).desc, dayWeather.hourly.get(20).desc, dayWeather.hourly.get(0).desc)}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/humidity_heading_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-1dp"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/humidity"
+                android:textAppearance="@style/SmallHeading"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/desc_text_view" />
+
+            <TextView
+                android:id="@+id/humidity_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.format(@string/humidity_format, dayWeather.humidity)}"
+                android:textAppearance="@style/SmallSub"
+                app:layout_constraintBottom_toTopOf="@+id/pressure_heading_text_view"
+                app:layout_constraintStart_toStartOf="@+id/center_guideline"
+                app:layout_constraintTop_toTopOf="@+id/humidity_heading_text_view" />
+
+            <TextView
+                android:id="@+id/pressure_heading_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-1dp"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/pressure"
+                android:textAppearance="@style/SmallHeading"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/humidity_heading_text_view" />
+
+            <TextView
+                android:id="@+id/pressure_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.format(@string/pressure_format, (double) dayWeather.pressure / 1000)}"
+                android:textAppearance="@style/SmallSub"
+                app:layout_constraintBottom_toBottomOf="@+id/pressure_heading_text_view"
+                app:layout_constraintStart_toStartOf="@+id/center_guideline"
+                app:layout_constraintTop_toTopOf="@+id/pressure_heading_text_view" />
+
+            <TextView
+                android:id="@+id/uv_index_heading_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-1dp"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/uv_index"
+                android:textAppearance="@style/SmallHeading"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pressure_heading_text_view" />
+
+            <TextView
+                android:id="@+id/uv_index_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(dayWeather.uvIndex)}"
+                android:textAppearance="@style/SmallSub"
+                app:layout_constraintBottom_toBottomOf="@+id/uv_index_heading_text_view"
+                app:layout_constraintStart_toStartOf="@+id/center_guideline"
+                app:layout_constraintTop_toTopOf="@+id/uv_index_heading_text_view" />
+
+            <TextView
+                android:id="@+id/wind_speed_heading_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/wind_speed"
+                android:textAppearance="@style/SmallHeading"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/uv_index_heading_text_view" />
+
+            <TextView
+                android:id="@+id/wind_speed_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.format(@string/wind_speed_format, dayWeather.windSpeed)}"
+                android:textAppearance="@style/SmallSub"
+                app:layout_constraintBottom_toBottomOf="@+id/wind_speed_heading_text_view"
+                app:layout_constraintStart_toStartOf="@+id/center_guideline"
+                app:layout_constraintTop_toTopOf="@+id/wind_speed_heading_text_view" />
+
+            <TextView
+                android:id="@+id/sunrise_heading_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-1dp"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/sunrise"
+                android:textAppearance="@style/SmallHeading"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wind_speed_heading_text_view" />
+
+            <TextView
+                android:id="@+id/sunrise_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{dayWeather.sunrise}"
+                android:textAppearance="@style/SmallSub"
+                app:layout_constraintBottom_toBottomOf="@+id/sunrise_heading_text_view"
+                app:layout_constraintStart_toStartOf="@+id/center_guideline"
+                app:layout_constraintTop_toTopOf="@+id/sunrise_heading_text_view" />
+
+            <TextView
+                android:id="@+id/sunset_heading_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-1dp"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/sunset"
+                android:textAppearance="@style/SmallHeading"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sunrise_heading_text_view" />
+
+            <TextView
+                android:id="@+id/sunset_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{dayWeather.sunset}"
+                android:textAppearance="@style/SmallSub"
+                app:layout_constraintBottom_toBottomOf="@+id/sunset_heading_text_view"
+                app:layout_constraintStart_toStartOf="@+id/center_guideline"
+                app:layout_constraintTop_toTopOf="@+id/sunset_heading_text_view" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/center_guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+        </com.jonerds.ballanweather.ui.expandablelayout.ExpandableConstraintLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/divider_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/expand_forecast_constraint_layout" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="24dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

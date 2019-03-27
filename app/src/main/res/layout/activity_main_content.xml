@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="currentCondition"
+            type="com.jonerds.ballanweather.data.model.HourWeather" />
+
+        <variable
+            name="dayWeather"
+            type="com.jonerds.ballanweather.data.model.DayWeather" />
+
+        <variable
+            name="city"
+            type="com.jonerds.ballanweather.data.model.City" />
+
+        <import type="java.lang.String" />
+
+        <variable
+            name="view"
+            type="com.jonerds.ballanweather.ui.main.MainMvpView"/>
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/root_layout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:showIn="@layout/activity_main">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="@color/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/header_image_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:placeholder_desc="@{currentCondition.desc}"
+                        android:placeholder_time="@{currentCondition.time}"
+                        android:scaleType="centerCrop"
+                        app:layout_collapseMode="parallax"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/temp_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@{String.valueOf(currentCondition.temp)}"
+                        android:textColor="@color/white"
+                        android:textSize="54sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/temp_type_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/temp_type_c"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        app:layout_constraintStart_toEndOf="@+id/temp_text_view"
+                        app:layout_constraintTop_toTopOf="@+id/temp_text_view" />
+
+                    <TextView
+                        android:id="@+id/city_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_location"
+                        android:gravity="center"
+                        android:text="@{String.format(@string/current_condition_desc_format, city.id, currentCondition.desc)}"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/temp_text_view"
+                        app:layout_constraintTop_toBottomOf="@+id/temp_text_view" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:fitsSystemWindows="true"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swiperefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/content_nested_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/details_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/details"
+                        android:textAppearance="@style/LargeHeading"
+                        app:layout_constraintStart_toStartOf="@+id/start_guideline"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/weather_now_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/weather_now"
+                        app:layout_constraintStart_toStartOf="@+id/details_text_view"
+                        app:layout_constraintTop_toBottomOf="@+id/details_text_view" />
+
+                    <ImageView
+                        android:id="@+id/expanded_details_image_view"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/weather_now_text_view"
+                        app:layout_constraintDimensionRatio="h,1:1"
+                        app:layout_constraintEnd_toStartOf="@+id/end_guideline"
+                        app:layout_constraintTop_toTopOf="@+id/details_text_view"
+                        app:srcCompat="@drawable/ic_expand_more" />
+
+                    <androidx.constraintlayout.widget.Group
+                        android:id="@+id/details_heading_group"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{()-> view.toggleDetailsExpandedLayout()}"
+                        app:layout_constraintBottom_toBottomOf="@+id/weather_now_text_view"
+                        app:layout_constraintEnd_toStartOf="@+id/end_guideline"
+                        app:layout_constraintStart_toStartOf="@+id/start_guideline"
+                        app:layout_constraintTop_toTopOf="@+id/details_text_view" />
+
+                    <ImageView
+                        android:id="@+id/temperature_image_view"
+                        style="@style/WeatherDetailsIcon"
+                        app:layout_constraintStart_toStartOf="@+id/start_guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/weather_now_text_view"
+                        app:srcCompat="@drawable/ic_temperature" />
+
+                    <TextView
+                        android:id="@+id/temperature_heading_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="@string/temperature"
+                        android:textAppearance="@style/SmallHeading"
+                        app:layout_constraintBottom_toTopOf="@+id/temperature_details_text_view"
+                        app:layout_constraintStart_toEndOf="@+id/temperature_image_view"
+                        app:layout_constraintTop_toTopOf="@+id/temperature_image_view" />
+
+                    <TextView
+                        android:id="@+id/temperature_details_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="@{String.format(@string/max_min_temp_format, dayWeather.minTemp, dayWeather.maxTemp)}"
+                        android:textAppearance="@style/SmallSub"
+                        app:layout_constraintBottom_toBottomOf="@+id/temperature_image_view"
+                        app:layout_constraintStart_toEndOf="@+id/temperature_image_view"
+                        app:layout_constraintTop_toBottomOf="@+id/temperature_heading_text_view" />
+
+                    <ImageView
+                        android:id="@+id/feels_like_image_view"
+                        style="@style/WeatherDetailsIcon"
+                        app:layout_constraintStart_toStartOf="@+id/center_guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/weather_now_text_view"
+                        app:srcCompat="@drawable/ic_feels_like" />
+
+
+                    <TextView
+                        android:id="@+id/feels_like_heading_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="@string/feels_like"
+                        android:textAppearance="@style/SmallHeading"
+                        app:layout_constraintBottom_toTopOf="@+id/feels_like_details_text_view"
+                        app:layout_constraintStart_toEndOf="@+id/feels_like_image_view"
+                        app:layout_constraintTop_toTopOf="@+id/feels_like_image_view" />
+
+                    <TextView
+                        android:id="@+id/feels_like_details_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="@{String.format(@string/feels_like_format, currentCondition.feelsLike)}"
+                        android:textAppearance="@style/SmallSub"
+                        app:layout_constraintBottom_toBottomOf="@+id/feels_like_image_view"
+                        app:layout_constraintStart_toEndOf="@+id/feels_like_image_view"
+                        app:layout_constraintTop_toBottomOf="@+id/feels_like_heading_text_view" />
+
+                    <ImageView
+                        android:id="@+id/precipitation_image_view"
+                        style="@style/WeatherDetailsIcon"
+                        app:layout_constraintStart_toStartOf="@+id/start_guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/temperature_image_view"
+                        app:srcCompat="@drawable/ic_percipitation" />
+
+                    <TextView
+                        android:id="@+id/precipitation_heading_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="@string/precipitation"
+                        android:textAppearance="@style/SmallHeading"
+                        app:layout_constraintBottom_toTopOf="@+id/precipitation_details_text_view"
+                        app:layout_constraintStart_toEndOf="@+id/precipitation_image_view"
+                        app:layout_constraintTop_toTopOf="@+id/precipitation_image_view" />
+
+                    <TextView
+                        android:id="@+id/precipitation_details_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="@{String.format(@string/precipiation_format, currentCondition.precipiation)}"
+                        android:textAppearance="@style/SmallSub"
+                        app:layout_constraintBottom_toBottomOf="@+id/precipitation_image_view"
+                        app:layout_constraintStart_toEndOf="@+id/precipitation_image_view"
+                        app:layout_constraintTop_toBottomOf="@+id/precipitation_heading_text_view" />
+
+                    <ImageView
+                        android:id="@+id/windy_speed_image_view"
+                        style="@style/WeatherDetailsIcon"
+                        app:layout_constraintStart_toStartOf="@+id/center_guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/feels_like_image_view"
+                        app:srcCompat="@drawable/ic_wind_speed" />
+
+                    <TextView
+                        android:id="@+id/wind_speed_heading_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="@string/wind_speed"
+                        android:textAppearance="@style/SmallHeading"
+                        app:layout_constraintBottom_toTopOf="@+id/wind_speed_details_text_view"
+                        app:layout_constraintStart_toEndOf="@+id/windy_speed_image_view"
+                        app:layout_constraintTop_toTopOf="@+id/windy_speed_image_view" />
+
+                    <TextView
+                        android:id="@+id/wind_speed_details_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:text="@{String.format(@string/wind_speed_format, currentCondition.windSpeed)}"
+                        android:textAppearance="@style/SmallSub"
+                        app:layout_constraintBottom_toBottomOf="@+id/windy_speed_image_view"
+                        app:layout_constraintStart_toEndOf="@+id/windy_speed_image_view"
+                        app:layout_constraintTop_toBottomOf="@+id/wind_speed_heading_text_view" />
+
+
+                    <com.jonerds.ballanweather.ui.expandablelayout.ExpandableConstraintLayout
+                        android:id="@+id/expand_details_constraint_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:expandDuration="-1"
+                        app:layout_constraintEnd_toStartOf="@+id/end_guideline"
+                        app:layout_constraintStart_toStartOf="@+id/start_guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/precipitation_details_text_view">
+
+                        <ImageView
+                            android:id="@+id/pressure_image_view"
+                            style="@style/WeatherDetailsIcon"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_pressure" />
+
+                        <TextView
+                            android:id="@+id/pressure_heading_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:text="@string/pressure"
+                            android:textAppearance="@style/SmallHeading"
+                            app:layout_constraintBottom_toTopOf="@+id/pressure_details_text_view"
+                            app:layout_constraintStart_toEndOf="@+id/pressure_image_view"
+                            app:layout_constraintTop_toTopOf="@+id/pressure_image_view"
+                            app:layout_constraintVertical_chainStyle="spread_inside" />
+
+                        <TextView
+                            android:id="@+id/pressure_details_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:text="@{String.format(@string/pressure_format, (double) currentCondition.pressure / 1000)}"
+                            android:textAppearance="@style/SmallSub"
+                            app:layout_constraintBottom_toBottomOf="@+id/pressure_image_view"
+                            app:layout_constraintStart_toEndOf="@+id/pressure_image_view"
+                            app:layout_constraintTop_toBottomOf="@+id/pressure_heading_text_view" />
+
+                        <ImageView
+                            android:id="@+id/humidity_image_view"
+                            style="@style/WeatherDetailsIcon"
+                            app:layout_constraintStart_toStartOf="@+id/center_details_guideline"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_humidity" />
+
+                        <TextView
+                            android:id="@+id/humidity_heading_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:text="@string/humidity"
+                            android:textAppearance="@style/SmallHeading"
+                            app:layout_constraintBottom_toTopOf="@+id/humidity_details_text_view"
+                            app:layout_constraintStart_toEndOf="@+id/humidity_image_view"
+                            app:layout_constraintTop_toTopOf="@+id/humidity_image_view" />
+
+                        <TextView
+                            android:id="@+id/humidity_details_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:text="@{String.format(@string/humidity_format, currentCondition.humidity)}"
+                            android:textAppearance="@style/SmallSub"
+                            app:layout_constraintBottom_toBottomOf="@+id/humidity_image_view"
+                            app:layout_constraintStart_toEndOf="@+id/humidity_image_view"
+                            app:layout_constraintTop_toBottomOf="@+id/humidity_heading_text_view" />
+
+                        <ImageView
+                            android:id="@+id/uv_index_image_view"
+                            style="@style/WeatherDetailsIcon"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/pressure_image_view"
+                            app:srcCompat="@drawable/ic_uv_index" />
+
+                        <TextView
+                            android:id="@+id/uv_index_heading_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:text="@string/uv_index"
+                            android:textAppearance="@style/SmallHeading"
+                            app:layout_constraintBottom_toTopOf="@+id/uv_index_details_text_view"
+                            app:layout_constraintStart_toEndOf="@+id/uv_index_image_view"
+                            app:layout_constraintTop_toTopOf="@+id/uv_index_image_view"
+                            app:layout_constraintVertical_chainStyle="spread_inside" />
+
+                        <TextView
+                            android:id="@+id/uv_index_details_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:text="@{String.valueOf(currentCondition.uvIndex)}"
+                            android:textAppearance="@style/SmallSub"
+                            app:layout_constraintBottom_toBottomOf="@+id/uv_index_image_view"
+                            app:layout_constraintStart_toEndOf="@+id/uv_index_image_view"
+                            app:layout_constraintTop_toBottomOf="@+id/uv_index_heading_text_view" />
+
+                        <ImageView
+                            android:id="@+id/cloud_cover_image_view"
+                            style="@style/WeatherDetailsIcon"
+                            app:layout_constraintStart_toStartOf="@+id/center_details_guideline"
+                            app:layout_constraintTop_toBottomOf="@+id/humidity_image_view"
+                            app:srcCompat="@drawable/ic_cloud_cover" />
+
+                        <TextView
+                            android:id="@+id/cloud_cover_heading_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:text="@string/cloud_cover"
+                            android:textAppearance="@style/SmallHeading"
+                            app:layout_constraintBottom_toTopOf="@+id/cloud_cover_details_text_view"
+                            app:layout_constraintStart_toEndOf="@+id/cloud_cover_image_view"
+                            app:layout_constraintTop_toTopOf="@+id/cloud_cover_image_view" />
+
+                        <TextView
+                            android:id="@+id/cloud_cover_details_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:text="@{String.format(@string/cloud_cover_format, currentCondition.cloudCover)}"
+                            android:textAppearance="@style/SmallSub"
+                            app:layout_constraintBottom_toBottomOf="@+id/cloud_cover_image_view"
+                            app:layout_constraintStart_toEndOf="@+id/cloud_cover_image_view"
+                            app:layout_constraintTop_toBottomOf="@+id/cloud_cover_heading_text_view" />
+
+                        <ImageView
+                            android:id="@+id/sunrise_image_view"
+                            style="@style/WeatherDetailsIcon"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/uv_index_image_view"
+                            app:srcCompat="@drawable/ic_sunrise" />
+
+                        <TextView
+                            android:id="@+id/sunrise_heading_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:text="@string/sunrise"
+                            android:textAppearance="@style/SmallHeading"
+                            app:layout_constraintBottom_toTopOf="@+id/sunrise_details_text_view"
+                            app:layout_constraintStart_toEndOf="@+id/sunrise_image_view"
+                            app:layout_constraintTop_toTopOf="@+id/sunrise_image_view" />
+
+                        <TextView
+                            android:id="@+id/sunrise_details_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:text="@{dayWeather.sunrise}"
+                            android:textAppearance="@style/SmallSub"
+                            app:layout_constraintBottom_toBottomOf="@+id/sunrise_image_view"
+                            app:layout_constraintStart_toEndOf="@+id/sunrise_image_view"
+                            app:layout_constraintTop_toBottomOf="@+id/sunrise_heading_text_view" />
+
+                        <ImageView
+                            android:id="@+id/sunset_image_view"
+                            style="@style/WeatherDetailsIcon"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/center_details_guideline"
+                            app:layout_constraintTop_toBottomOf="@+id/cloud_cover_image_view"
+                            app:srcCompat="@drawable/ic_sunset" />
+
+                        <TextView
+                            android:id="@+id/sunset_heading_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:text="@string/sunset"
+                            android:textAppearance="@style/SmallHeading"
+                            app:layout_constraintBottom_toTopOf="@+id/sunset_details_text_view"
+                            app:layout_constraintStart_toEndOf="@+id/sunset_image_view"
+                            app:layout_constraintTop_toTopOf="@+id/sunset_image_view" />
+
+                        <TextView
+                            android:id="@+id/sunset_details_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:text="@{dayWeather.sunset}"
+                            android:textAppearance="@style/SmallSub"
+                            app:layout_constraintBottom_toBottomOf="@+id/sunset_image_view"
+                            app:layout_constraintStart_toEndOf="@+id/sunset_image_view"
+                            app:layout_constraintTop_toBottomOf="@+id/sunset_heading_text_view" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/center_details_guideline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.5" />
+
+                    </com.jonerds.ballanweather.ui.expandablelayout.ExpandableConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/hourly_weather_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:text="@string/hourly_weather"
+                        android:textAppearance="@style/LargeHeading"
+                        app:layout_constraintStart_toStartOf="@+id/start_guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/expand_details_constraint_layout" />
+
+                    <TextView
+                        android:id="@+id/hourly_forcast_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_24_hour_forecast"
+                        app:layout_constraintStart_toStartOf="@+id/start_guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/hourly_weather_text_view" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/hourly_forecast_recycler_view"
+                        android:layout_width="0dp"
+                        android:layout_height="140dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toStartOf="@+id/end_guideline"
+                        app:layout_constraintStart_toStartOf="@+id/start_guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/hourly_forcast_text_view" />
+
+                    <TextView
+                        android:id="@+id/this_week_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/this_week"
+                        android:textAppearance="@style/LargeHeading"
+                        app:layout_constraintStart_toStartOf="@+id/start_guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/hourly_forecast_recycler_view" />
+
+                    <TextView
+                        android:id="@+id/week_forecast_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_7_day_forecast"
+                        app:layout_constraintStart_toStartOf="@+id/start_guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/this_week_text_view" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/week_forecast_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/week_forecast_text_view" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/start_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="24dp" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/center_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/end_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_end="24dp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            app:layout_behavior="com.jonerds.ballanweather.behaviors.ScrollAwareFABBehavior"
+            app:srcCompat="@drawable/ic_location"
+            android:onClick="@{() -> view.onFabClicked()}"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

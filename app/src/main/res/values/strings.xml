@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">Ballan Weather</string>
+
+    <!--App Message-->
+    <string name="loading">LOADING ...</string>
+    <string name="no_internet_desc">Slow or no internet connection.\nPlease check your internet settings.</string>
+    <string name="no_internet_message">Slow or no internet connection.</string>
+    <string name="api_retry_error">Please retry!</string>
+    <string name="api_default_error">Something wrong happened!</string>
+    <string name="some_error">Some Error Occurred!</string>
+    <string name="connection_error">Internet connection lost!</string>
+
+
+    <!--main activity-->
+    <string name="temp_type_c">°C</string>
+    <string name="details">Details</string>
+    <string name="weather_now">Weather now</string>
+    <string name="temperature">Temperature</string>
+    <string name="feels_like">Feels like</string>
+    <string name="precipitation">Precipitation</string>
+    <string name="wind_speed">Wind Speed</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
+    <string name="uv_index">UV index</string>
+    <string name="cloud_cover">Cloud cover</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
+    <string name="hourly_weather">Hourly Weather</string>
+    <string name="_24_hour_forecast">24-hour forecast</string>
+    <string name="this_week">This Week</string>
+    <string name="_7_day_forecast">7-day forecast</string>
+
+    <string name="temperature_format">%d°</string>
+    <string name="current_condition_desc_format">%s | %s</string>
+    <string name="max_min_temp_format">%d° | %d°</string>
+    <string name="feels_like_format">%d°</string>
+    <string name="precipiation_format">%.1f MM</string>
+    <string name="chanceofrain_format">%.0f%%</string>
+    <string name="wind_speed_format">%d km/h</string>
+    <string name="pressure_format">%.3f bar</string>
+    <string name="humidity_format">%d%%</string>
+    <string name="cloud_cover_format">%d%%</string>
+    <string name="hourly_forecast_time_format">%02d:00</string>
+    <string name="week_forecast_day_format">%tA %te</string>
+    <string name="week_forecast_day_desc_format">%s in the morning, %s in the afternoon, %s in the evening, and %s in the night.</string>
+    <string name="retry">Retry</string>
+
+    <!--location activity-->
+    <string name="location_desc">Looks like you\'re located in %s. Set this as the location for weather forecast?</string>
+    <string name="permission_error">Permission Denied</string>
+    <string name="permission_error_desc">Without this permission the app can\'t find your location.</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="just_a_sec">Just a Sec</string>
+    <string name="done">DONE</string>
+    <string name="select_location_error">Please select your location.</string>
+    <string name="reload">Reload</string>
+    <string name="unknown_error">Unknown Error</string>
+    <string name="ok">OK</string>
+    <string name="timeout">Timeout</string>
+    <string name="network_error">Network Error</string>
+
+</resources>

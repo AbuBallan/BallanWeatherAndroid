@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/permissions_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Permissions"
+        android:textAppearance="@style/LargeHeading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/permissions_desc_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="To unleash the full power of Ballan Weather, grant additional permissions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/permissions_title_text_view" />
+
+    <ImageView
+        android:id="@+id/location_icon_image_view"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="40dp"
+        android:tint="@color/light_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/permissions_desc_text_view"
+        app:srcCompat="@drawable/ic_location" />
+
+    <TextView
+        android:id="@+id/location_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Location"
+        android:textAppearance="@style/SmallHeading"
+        app:layout_constraintBottom_toTopOf="@+id/location_desc_text_view"
+        app:layout_constraintStart_toEndOf="@+id/location_icon_image_view"
+        app:layout_constraintTop_toTopOf="@+id/location_icon_image_view" />
+
+    <TextView
+        android:id="@+id/location_desc_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Used to determine location for weather forecast"
+        android:textAppearance="@style/SmallSub"
+        app:layout_constraintBottom_toBottomOf="@+id/location_icon_image_view"
+        app:layout_constraintStart_toEndOf="@+id/location_icon_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/location_title_text_view" />
+</androidx.constraintlayout.widget.ConstraintLayout>
