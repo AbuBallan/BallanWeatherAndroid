@@ -25,6 +25,8 @@ import com.jonerds.ballanweather.databinding.ActivityLocationBinding;
 import com.jonerds.ballanweather.ui.base.BaseActivity;
 import com.jonerds.ballanweather.utils.AppConstants;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 public class LocationActivity extends BaseActivity implements LocationMvpView {
@@ -73,11 +75,30 @@ public class LocationActivity extends BaseActivity implements LocationMvpView {
     @Override
     public Pair<Double, Double> getLatLong() {
         if (checkLocationPermission()) {
-            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location location = getLastKnownLocation();
             double longitude = location.getLongitude();
             double latitude = location.getLatitude();
             return new Pair<>(latitude, longitude);
+        }
+        return null;
+    }
+
+    private Location getLastKnownLocation() {
+        if (checkLocationPermission()) {
+            LocationManager lm = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+            List<String> providers = lm.getProviders(true);
+            Location bestLocation = null;
+            for (String provider : providers) {
+                Location l = lm.getLastKnownLocation(provider);
+                if (l == null) {
+                    continue;
+                }
+                if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                    // Found best last known location: %s", l);
+                    bestLocation = l;
+                }
+            }
+            return bestLocation;
         }
         return null;
     }
